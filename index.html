@@ -1,258 +1,890 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZAKASH MINER</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ZAKASH MINER</title>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #0b0f19;
-      color: white;
-      display: flex;
-      justify-content: center;
-    }
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#050b14;
+}
 
-    .app {
-      width: 100%;
-      max-width: 480px;
-      padding: 25px 18px;
-      text-align: center;
-    }
+body{
+  font-family:Arial,sans-serif;
+  color:white;
+  background:
+    radial-gradient(circle at 75% 8%,rgba(0,120,255,.16),transparent 28%),
+    radial-gradient(circle at 20% 45%,rgba(0,220,255,.06),transparent 30%),
+    #050b14;
+}
 
-    .logo {
-      width: 90px;
-      height: 90px;
-      margin: 10px auto 15px;
-      border-radius: 50%;
-      background: #172033;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 42px;
-      box-shadow: 0 0 25px rgba(0, 200, 255, 0.25);
-    }
+.app{
+  width:100%;
+  max-width:480px;
+  margin:auto;
+  padding:16px 14px 100px;
+}
 
-    h1 {
-      margin: 5px 0;
-      font-size: 28px;
-    }
+/* TOP */
 
-    .subtitle {
-      color: #8d99ae;
-      margin-bottom: 25px;
-    }
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
 
-    .balance {
-      background: #121a2b;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 18px;
-    }
+.brand{
+  font-size:19px;
+  font-weight:800;
+}
 
-    .balance-title {
-      color: #8d99ae;
-      font-size: 14px;
-    }
+.brand span{
+  color:#12bfff;
+}
 
-    .points {
-      font-size: 36px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
+.user-mini{
+  font-size:12px;
+  color:#8095aa;
+}
 
-    .zksh {
-      color: #36d9ff;
-      font-size: 15px;
-    }
+/* HERO */
 
-    button {
-      width: 100%;
-      border: 0;
-      border-radius: 15px;
-      padding: 16px;
-      margin-top: 12px;
-      font-size: 17px;
-      font-weight: bold;
-      color: white;
-      background: #1677ff;
-      cursor: pointer;
-    }
+.hero{
+  position:relative;
+  overflow:hidden;
+  min-height:250px;
+  padding:28px 18px 18px;
+  border-radius:24px;
+  border:1px solid #11334e;
+  background:
+    radial-gradient(circle at 82% 38%,rgba(0,126,255,.32),transparent 28%),
+    linear-gradient(135deg,#071525,#06101d 60%,#081426);
+}
 
-    button:disabled {
-      background: #30394a;
-      color: #8d99ae;
-    }
+.hero-art{
+  position:absolute;
+  right:4px;
+  top:10px;
+  width:190px;
+  height:150px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-    .card {
-      background: #121a2b;
-      border-radius: 18px;
-      padding: 18px;
-      margin-top: 18px;
-      text-align: left;
-    }
+.hero-art .pick{
+  font-size:74px;
+  transform:rotate(-18deg);
+  filter:drop-shadow(0 0 12px #00aaff);
+}
 
-    .card h2 {
-      font-size: 18px;
-      margin-top: 0;
-    }
+.hero-art .coin{
+  position:absolute;
+  right:30px;
+  bottom:4px;
+  width:82px;
+  height:82px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:45px;
+  font-weight:900;
+  color:#16c8ff;
+  border:4px solid #118cff;
+  background:#081b30;
+  box-shadow:
+    0 0 25px #008cff,
+    inset 0 0 20px #0066ff;
+}
 
-    .status {
-      text-align: center;
-      margin-top: 18px;
-      color: #8d99ae;
-      font-size: 14px;
-      min-height: 20px;
-    }
-  </style>
+.hero-copy{
+  position:relative;
+  z-index:2;
+  width:60%;
+}
+
+.hero h1{
+  font-size:40px;
+  line-height:.95;
+  margin:25px 0 12px;
+  letter-spacing:1px;
+}
+
+.hero h1 span{
+  color:#08baff;
+}
+
+.subtitle{
+  color:#9aadc1;
+  font-size:16px;
+  margin-bottom:16px;
+}
+
+.tagline{
+  color:#a5b5c6;
+  font-size:13px;
+}
+
+/* BALANCE */
+
+.balance-card{
+  margin-top:14px;
+  padding:18px;
+  border-radius:22px;
+  border:1px solid #142e45;
+  background:linear-gradient(135deg,#0b1929,#091321);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.welcome{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.avatar{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  font-weight:800;
+  color:#43d9ff;
+  border:1px solid #1a8dff;
+  background:#10233a;
+  box-shadow:0 0 18px rgba(0,139,255,.3);
+}
+
+.wsmall{
+  font-size:12px;
+  color:#93a7bb;
+  margin-bottom:4px;
+}
+
+.wname{
+  font-size:18px;
+  font-weight:800;
+}
+
+.level{
+  display:inline-block;
+  margin-top:6px;
+  padding:6px 11px;
+  border-radius:99px;
+  background:#102544;
+  color:#12aaff;
+  font-size:11px;
+  font-weight:700;
+}
+
+.balance-side{
+  text-align:left;
+}
+
+.balance-title{
+  font-size:11px;
+  color:#8799ad;
+}
+
+.points{
+  font-size:29px;
+  font-weight:900;
+  margin-top:4px;
+}
+
+.zksh{
+  font-size:13px;
+  color:#12c5ff;
+  font-weight:700;
+}
+
+.zcoin{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:29px;
+  font-weight:900;
+  color:#19cfff;
+  border:3px solid #167fff;
+  box-shadow:0 0 18px #006cff;
+  background:#081a30;
+}
+
+/* MINE */
+
+.mine-card{
+  margin-top:14px;
+  padding:20px;
+  border-radius:23px;
+  border:1px solid #0b8cff;
+  background:
+    radial-gradient(circle at 78% 35%,rgba(74,35,255,.27),transparent 30%),
+    linear-gradient(135deg,#061a2a,#0b1024);
+}
+
+.mine-label{
+  color:#00baff;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.6px;
+}
+
+.mine-title{
+  font-size:28px;
+  font-weight:800;
+  margin:10px 0 6px;
+}
+
+.mine-sub{
+  color:#9cafc3;
+  font-size:14px;
+  line-height:1.55;
+  width:58%;
+}
+
+.mine-art{
+  float:right;
+  margin-top:-105px;
+  margin-right:3px;
+  font-size:68px;
+  filter:drop-shadow(0 0 16px #365dff);
+  transform:rotate(-18deg);
+}
+
+#mineBtn{
+  width:100%;
+  border:0;
+  border-radius:16px;
+  padding:17px;
+  margin-top:22px;
+  color:white;
+  font-size:18px;
+  font-weight:900;
+  background:linear-gradient(90deg,#078eff,#7136ff);
+  cursor:pointer;
+}
+
+#mineBtn:disabled{
+  background:#344054;
+  color:#a9b5c5;
+}
+
+.status{
+  min-height:20px;
+  text-align:center;
+  color:#8fa5b8;
+  font-size:12px;
+  margin-top:10px;
+}
+
+/* PROGRESS */
+
+.progress{
+  margin-top:12px;
+  padding:15px;
+  border-radius:18px;
+  background:#091727;
+  border:1px solid #12334a;
+}
+
+.progress-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:#91a6bb;
+  margin-bottom:8px;
+}
+
+.bar{
+  height:7px;
+  border-radius:10px;
+  background:#14283a;
+  overflow:hidden;
+}
+
+.bar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#09c7ff,#6e3dff);
+}
+
+/* FEATURES */
+
+.features{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:14px;
+}
+
+.feature{
+  min-height:112px;
+  padding:15px;
+  border-radius:19px;
+  border:1px solid #142e45;
+  background:#0b1828;
+  cursor:pointer;
+}
+
+.feature-icon{
+  width:44px;
+  height:44px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  background:#102d4c;
+}
+
+.feature-title{
+  font-size:15px;
+  font-weight:800;
+  margin-top:9px;
+}
+
+.feature-sub{
+  font-size:11px;
+  color:#8fa3b7;
+  margin-top:5px;
+  line-height:1.35;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  z-index:20;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(480px,100%);
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  padding:9px 8px calc(9px + env(safe-area-inset-bottom));
+  background:rgba(6,16,29,.96);
+  border-top:1px solid #17324a;
+  backdrop-filter:blur(12px);
+}
+
+.bottom-nav button{
+  border:0;
+  background:none;
+  color:#8194a8;
+  font-size:10px;
+  font-weight:700;
+  padding:3px 0;
+}
+
+.bottom-nav button span{
+  display:block;
+  font-size:21px;
+  margin-bottom:3px;
+}
+
+.bottom-nav .active{
+  color:#0aaaff;
+}
+
+.bottom-nav .active:after{
+  content:"";
+  display:block;
+  width:34px;
+  height:2px;
+  background:#0aaaff;
+  margin:5px auto 0;
+  border-radius:4px;
+}
+
+@media(max-width:360px){
+  .hero h1{
+    font-size:34px;
+  }
+
+  .hero-art{
+    opacity:.8;
+    right:-20px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <div class="logo">⛏️</div>
-
-  <h1>ZAKASH MINER</h1>
-  <div class="subtitle">Mine ZKSH every 24 hours</div>
-
-  <div class="balance">
-    <div class="balance-title">YOUR BALANCE</div>
-    <div class="points" id="balance">0</div>
-    <div class="zksh">ZKSH</div>
+  <div class="topbar">
+    <div class="brand">⛏️ <span>ZAKASH</span> MINER</div>
+    <div class="user-mini">Level 1</div>
   </div>
 
-  <button id="mineBtn" onclick="mine()">
-    ⛏️ MINE ZKSH
-  </button>
+  <section class="hero">
 
-  <div class="card">
-    <h2>👥 Invite Friends</h2>
-    <p>Invite friends and earn more ZKSH.</p>
-    <button onclick="inviteFriends()">Invite Friends</button>
+    <div class="hero-art">
+      <div class="pick">⛏️</div>
+      <div class="coin">Z</div>
+    </div>
+
+    <div class="hero-copy">
+      <h1>
+        ZAKASH<br>
+        <span>MINER</span>
+      </h1>
+
+      <div class="subtitle">
+        Mine ZKSH every 24 hours
+      </div>
+
+      <div class="tagline">
+        ⚒ Collect • Earn • Grow
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="balance-card">
+
+    <div class="welcome">
+
+      <div class="avatar">
+        U
+      </div>
+
+      <div>
+        <div class="wsmall">
+          Welcome,
+        </div>
+
+        <div class="wname">
+          User
+        </div>
+
+        <div class="level">
+          Level 1
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="balance-side">
+
+      <div class="balance-title">
+        YOUR BALANCE
+      </div>
+
+      <div class="points" id="balance">
+        0
+      </div>
+
+      <div class="zksh">
+        ZKSH
+      </div>
+
+    </div>
+
+
+    <div class="zcoin">
+      Z
+    </div>
+
+  </section>
+
+
+  <section class="mine-card">
+
+    <div class="mine-label">
+      DAILY MINING
+    </div>
+
+    <div class="mine-title">
+      Mine Now
+    </div>
+
+    <div class="mine-sub">
+      Mine ZKSH and grow your balance
+    </div>
+
+    <div class="mine-art">
+      ⛏️
+    </div>
+
+    <button id="mineBtn" onclick="mine()">
+      ⚒ MINE NOW
+    </button>
+
+    <div class="status" id="status"></div>
+
+  </section>
+
+
+  <div class="features">
+
+    <div class="feature" onclick="inviteFriends()">
+
+      <div class="feature-icon">
+        👥
+      </div>
+
+      <div class="feature-title">
+        Invite Friends
+      </div>
+
+      <div class="feature-sub">
+        Invite friends and earn more ZKSH.
+      </div>
+
+    </div>
+
+
+    <div class="feature" onclick="watchAd()">
+
+      <div class="feature-icon">
+        📺
+      </div>
+
+      <div class="feature-title">
+        Watch Ad
+      </div>
+
+      <div class="feature-sub">
+        Watch ads and earn rewards.
+      </div>
+
+    </div>
+
+
+    <div class="feature" onclick="openWallet()">
+
+      <div class="feature-icon">
+        💳
+      </div>
+
+      <div class="feature-title">
+        Wallet
+      </div>
+
+      <div class="feature-sub">
+        View your balance and transactions.
+      </div>
+
+    </div>
+
+
+    <div class="feature" onclick="openWithdraw()">
+
+      <div class="feature-icon">
+        🔒
+      </div>
+
+      <div class="feature-title">
+        Withdraw
+      </div>
+
+      <div class="feature-sub">
+        Withdraw your ZKSH tokens.
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="card">
-    <h2>📺 Watch Ad</h2>
-    <p>Watch an advertisement and earn bonus ZKSH.</p>
-    <button onclick="watchAd()">Watch Ad</button>
-  </div>
 
-  <div class="status" id="status"></div>
+  <div class="progress">
+
+    <div class="progress-row">
+      <span>
+        Next mining available
+      </span>
+
+      <span id="miniTimer">
+        24H
+      </span>
+    </div>
+
+    <div class="bar">
+      <span id="barFill"></span>
+    </div>
+
+  </div>
 
 </div>
+
+
+<nav class="bottom-nav">
+
+  <button class="active">
+    <span>🏠</span>
+    Home
+  </button>
+
+  <button onclick="inviteFriends()">
+    <span>👥</span>
+    Friends
+  </button>
+
+  <button onclick="watchAd()">
+    <span>☑️</span>
+    Tasks
+  </button>
+
+  <button onclick="openWallet()">
+    <span>💳</span>
+    Wallet
+  </button>
+
+  <button onclick="openWithdraw()">
+    <span>👤</span>
+    Profile
+  </button>
+
+</nav>
+
 
 <script>
-  const tg = window.Telegram.WebApp;
 
-  if (tg) {
-    tg.ready();
-    tg.expand();
-  }
+const tg = window.Telegram.WebApp;
 
-  let balance = Number(localStorage.getItem("zksh_balance")) || 0;
-  let lastMine = Number(localStorage.getItem("zksh_last_mine")) || 0;
+if(tg){
+  tg.ready();
+  tg.expand();
+}
 
-  const mineCooldown = 24 * 60 * 60 * 1000;
 
-  function updateUI() {
-    document.getElementById("balance").textContent = balance;
+let balance =
+  Number(localStorage.getItem("zksh_balance")) || 0;
 
-    const now = Date.now();
-    const remaining = mineCooldown - (now - lastMine);
+let lastMine =
+  Number(localStorage.getItem("zksh_last_mine")) || 0;
 
-    const btn = document.getElementById("mineBtn");
 
-    if (lastMine === 0 || remaining <= 0) {
-      btn.disabled = false;
-      btn.textContent = "⛏️ MINE ZKSH";
-      document.getElementById("status").textContent = "";
-    } else {
-      btn.disabled = true;
+const mineCooldown =
+  24 * 60 * 60 * 1000;
 
-      const hours = Math.floor(remaining / 3600000);
-      const minutes = Math.floor((remaining % 3600000) / 60000);
 
-      btn.textContent = "⏳ WAIT 24 HOURS";
-      document.getElementById("status").textContent =
-        "Next mining in " + hours + "h " + minutes + "m";
-    }
-  }
+function updateUI(){
 
-  function mine() {
-    const now = Date.now();
+  document.getElementById("balance").textContent =
+    balance;
 
-    if (lastMine !== 0 && now - lastMine < mineCooldown) {
-      updateUI();
-      return;
-    }
+  const now = Date.now();
 
-    const reward = 10;
+  const remaining =
+    mineCooldown - (now - lastMine);
 
-    balance += reward;
-    lastMine = now;
+  const btn =
+    document.getElementById("mineBtn");
 
-    localStorage.setItem("zksh_balance", balance);
-    localStorage.setItem("zksh_last_mine", lastMine);
+
+  if(lastMine === 0 || remaining <= 0){
+
+    btn.disabled = false;
+
+    btn.textContent =
+      "⚒ MINE NOW";
 
     document.getElementById("status").textContent =
-      "🎉 You mined +" + reward + " ZKSH!";
+      "";
+
+    document.getElementById("miniTimer").textContent =
+      "READY";
+
+    document.getElementById("barFill").style.width =
+      "100%";
+
+  }else{
+
+    btn.disabled = true;
+
+    const hours =
+      Math.floor(remaining / 3600000);
+
+    const minutes =
+      Math.floor(
+        (remaining % 3600000) / 60000
+      );
+
+
+    btn.textContent =
+      "⏳ WAIT 24 HOURS";
+
+
+    document.getElementById("status").textContent =
+      "Next mining in " +
+      hours +
+      "h " +
+      minutes +
+      "m";
+
+
+    document.getElementById("miniTimer").textContent =
+      hours +
+      "h " +
+      minutes +
+      "m";
+
+
+    const progress =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          100 -
+          (remaining / mineCooldown * 100)
+        )
+      );
+
+
+    document.getElementById("barFill").style.width =
+      progress + "%";
+  }
+}
+
+
+function mine(){
+
+  const now = Date.now();
+
+
+  if(
+    lastMine !== 0 &&
+    now - lastMine < mineCooldown
+  ){
 
     updateUI();
+
+    return;
   }
 
-  function inviteFriends() {
-    const botUsername = "ZakashMinerBot";
 
-    const text =
-      "🚀 Join ZAKASH MINER and start mining ZKSH!";
+  const reward = 10;
 
-    const url =
-      "https://t.me/" + botUsername + "?start=invite";
 
-    if (tg && tg.openTelegramLink) {
-      tg.openTelegramLink(
-        "https://t.me/share/url?url=" +
-        encodeURIComponent(url) +
-        "&text=" +
-        encodeURIComponent(text)
-      );
-    } else {
-      window.open(
-        "https://t.me/share/url?url=" +
-        encodeURIComponent(url) +
-        "&text=" +
-        encodeURIComponent(text),
-        "_blank"
-      );
-    }
-  }
+  balance += reward;
 
-  function watchAd() {
-    document.getElementById("status").textContent =
-      "📺 Ads will be connected in a future version.";
-  }
+  lastMine = now;
+
+
+  localStorage.setItem(
+    "zksh_balance",
+    balance
+  );
+
+  localStorage.setItem(
+    "zksh_last_mine",
+    lastMine
+  );
+
+
+  document.getElementById("status").textContent =
+    "🎉 You mined +" +
+    reward +
+    " ZKSH!";
+
 
   updateUI();
+}
 
-  setInterval(updateUI, 30000);
+
+function inviteFriends(){
+
+  const botUsername =
+    "ZakashMinerBot";
+
+
+  const text =
+    "🚀 Join ZAKASH MINER and start mining ZKSH!";
+
+
+  const url =
+    "https://t.me/" +
+    botUsername +
+    "?start=invite";
+
+
+  if(tg && tg.openTelegramLink){
+
+    tg.openTelegramLink(
+      "https://t.me/share/url?url=" +
+      encodeURIComponent(url) +
+      "&text=" +
+      encodeURIComponent(text)
+    );
+
+  }else{
+
+    window.open(
+      "https://t.me/share/url?url=" +
+      encodeURIComponent(url) +
+      "&text=" +
+      encodeURIComponent(text),
+      "_blank"
+    );
+
+  }
+}
+
+
+function watchAd(){
+
+  document.getElementById("status").textContent =
+    "📺 Ads will be connected in a future version.";
+
+}
+
+
+function openWallet(){
+
+  alert(
+    "💰 WALLET\nBalance: " +
+    balance +
+    " ZKSH"
+  );
+
+}
+
+
+function openWithdraw(){
+
+  alert(
+    "🔒 برداشت فعلاً قفل است\n" +
+    "زمان فعال‌شدن بعداً اعلام خواهد شد."
+  );
+
+}
+
+
+updateUI();
+
+
+setInterval(
+  updateUI,
+  30000
+);
+
 </script>
-<div style="margin-top:20px;">
-  <button onclick="alert('🔒 برداشت فعلاً فعال نیست\\nزمان فعال‌شدن بعداً اعلام خواهد شد.')">
-    💰 WALLET
-  </button>
-  <button onclick="alert('🔒 برداشت فعلاً قفل است\\nزمان فعال‌شدن بعداً اعلام خواهد شد.')">
-    🔒 WITHDRAW
-  </button>
-</div>
+
 </body>
 </html>
