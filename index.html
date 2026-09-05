@@ -2,434 +2,500 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ZAKASH MINER</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
-body{
-  margin:0;
-  background:#050b18;
-  color:white;
-  font-family:Arial,sans-serif;
-  min-height:100vh;
+body {
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(circle at top, #14265c 0%, #080d20 45%, #03050d 100%);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-.app{
-  width:100%;
-  max-width:760px;
-  margin:auto;
-  padding:20px 18px 100px;
+button {
+    font-family: inherit;
 }
 
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
+.app {
+    max-width: 480px;
+    min-height: 100vh;
+    margin: auto;
+    padding-bottom: 85px;
 }
 
 /* HEADER */
-
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:22px;
+.header {
+    padding: 22px 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.header h1{
-  font-size:25px;
-  margin:0;
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
-.logo{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#087cff,#712cff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  box-shadow:0 0 25px #087cff66;
+.logo span {
+    color: #45c8ff;
 }
 
-/* HERO */
-
-.hero{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:20px;
+.status {
+    background: rgba(53, 201, 255, .12);
+    border: 1px solid rgba(53, 201, 255, .3);
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    color: #75dfff;
 }
 
-.hero h2{
-  font-size:43px;
-  line-height:1;
-  margin:0 0 12px;
+/* PAGES */
+.page {
+    display: none;
+    padding: 12px 18px;
 }
 
-.hero h2 span{
-  color:#1598ff;
+.page.active {
+    display: block;
 }
 
-.hero p{
-  color:#9aa8c0;
-  font-size:16px;
-  margin:0 0 8px;
+/* BALANCE */
+.balance-card {
+    margin-top: 12px;
+    padding: 25px 20px;
+    border-radius: 24px;
+    background:
+        linear-gradient(145deg, rgba(28,58,125,.95), rgba(9,17,45,.96));
+    border: 1px solid rgba(91,190,255,.22);
+    box-shadow: 0 15px 45px rgba(0,0,0,.3);
+    text-align: center;
 }
 
-.hero small{
-  color:#9aa8c0;
-  font-size:14px;
+.small-title {
+    color: #91a8cf;
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.pickaxe{
-  font-size:80px;
-  filter:drop-shadow(0 0 20px #0099ff);
+.balance {
+    font-size: 39px;
+    font-weight: 800;
 }
 
-/* USER CARD */
-
-.user-card{
-  background:linear-gradient(135deg,#101b31,#091426);
-  border:1px solid #172944;
-  border-radius:22px;
-  padding:18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
+.balance span {
+    color: #4dcaff;
+    font-size: 17px;
 }
 
-.user-info{
-  display:flex;
-  align-items:center;
-  gap:13px;
+.subtext {
+    margin-top: 7px;
+    color: #8096bd;
+    font-size: 12px;
 }
 
-.avatar{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#122c58;
-  border:1px solid #188cff;
-  color:#27a8ff;
-  font-size:23px;
+/* BUTTON */
+.main-btn {
+    width: 100%;
+    border: 0;
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: 17px;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #198cff, #655cff);
+    box-shadow: 0 10px 30px rgba(38,117,255,.28);
 }
 
-.user-name{
-  font-size:18px;
-  font-weight:bold;
+.main-btn:disabled {
+    opacity: .45;
 }
 
-.level{
-  display:inline-block;
-  margin-top:7px;
-  padding:5px 10px;
-  border-radius:20px;
-  background:#102f61;
-  color:#1598ff;
-  font-size:12px;
+/* MINING */
+.mining-box {
+    margin-top: 16px;
+    padding: 20px;
+    border-radius: 22px;
+    background: rgba(12,22,51,.86);
+    border: 1px solid rgba(92,170,255,.15);
 }
 
-.balance-mini{
-  text-align:right;
+.mining-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.balance-mini small{
-  color:#9aa8c0;
+.mining-title {
+    font-size: 17px;
+    font-weight: 800;
 }
 
-.balance-mini strong{
-  display:block;
-  font-size:28px;
-  margin-top:4px;
+.day {
+    color: #62d3ff;
+    font-size: 12px;
 }
 
-.balance-mini span{
-  color:#12aaff;
+.progress {
+    height: 8px;
+    background: #101a36;
+    border-radius: 20px;
+    margin: 18px 0 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #36c9ff, #7164ff);
+    border-radius: 20px;
+    transition: width .3s;
+}
+
+.timer {
+    text-align: center;
+    color: #a9bde0;
+    font-size: 13px;
 }
 
 /* CARDS */
-
-.card{
-  background:linear-gradient(145deg,#0d1a2d,#081322);
-  border:1px solid #172b45;
-  border-radius:22px;
-  padding:22px;
-  margin-bottom:16px;
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
 }
 
-.card-title{
-  color:#1598ff;
-  font-size:14px;
-  font-weight:bold;
-  letter-spacing:.5px;
+.stat {
+    padding: 17px;
+    border-radius: 18px;
+    background: rgba(12,22,51,.85);
+    border: 1px solid rgba(255,255,255,.06);
 }
 
-.card h2{
-  margin:8px 0;
-  font-size:28px;
+.stat .value {
+    font-size: 21px;
+    font-weight: 800;
+    margin-top: 7px;
 }
 
-.card p{
-  color:#a2afc4;
-  line-height:1.6;
+.stat .label {
+    color: #8095bc;
+    font-size: 11px;
 }
 
-.mine-card{
-  border:1px solid #148eff;
-  box-shadow:0 0 25px #0786ff1c;
+/* GAME */
+.game-header {
+    text-align: center;
+    margin: 10px 0 15px;
 }
 
-.mine-button{
-  width:100%;
-  border:0;
-  border-radius:18px;
-  padding:17px;
-  color:white;
-  font-size:19px;
-  font-weight:bold;
-  background:linear-gradient(90deg,#087cff,#7b2cff);
-  cursor:pointer;
+.game-header h2 {
+    font-size: 25px;
 }
 
-.mine-button:disabled{
-  background:#354052;
-  color:#aab4c6;
+.game-header p {
+    color: #8ea6cf;
+    font-size: 12px;
+    margin-top: 6px;
 }
 
-/* TWO CARDS */
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
+.game-area {
+    position: relative;
+    width: 100%;
+    height: 510px;
+    overflow: hidden;
+    border-radius: 25px;
+    background:
+        radial-gradient(circle at 50% 20%, rgba(60,110,255,.2), transparent 35%),
+        linear-gradient(#07122f, #030718);
+    border: 1px solid rgba(80,180,255,.18);
+    touch-action: none;
 }
 
-.action-card{
-  min-height:150px;
-  cursor:pointer;
+.game-info {
+    position: absolute;
+    z-index: 50;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
 }
 
-.icon{
-  width:52px;
-  height:52px;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-  margin-bottom:14px;
-  background:#12366b;
+.game-pill {
+    background: rgba(4,10,27,.78);
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 7px 10px;
+    border-radius: 12px;
+    font-size: 11px;
 }
 
-.action-card h3{
-  margin:0 0 7px;
+.crystal {
+    position: absolute;
+    width: 18px;
+    height: 24px;
+    background: linear-gradient(135deg, #8df3ff, #168eff);
+    clip-path: polygon(50% 0%, 90% 28%, 75% 100%, 25% 100%, 10% 28%);
+    box-shadow:
+        0 0 10px #28cfff,
+        0 0 20px rgba(35,169,255,.55);
+    cursor: pointer;
+    z-index: 10;
+    animation: crystalGlow 1s infinite alternate;
 }
 
-.action-card p{
-  margin:0;
-  font-size:13px;
+@keyframes crystalGlow {
+    from { filter: brightness(.85); }
+    to { filter: brightness(1.2); }
 }
 
-/* TIMER */
-
-.timer-card{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.bomb {
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #606070, #11121c 60%);
+    box-shadow: 0 0 8px rgba(255,80,80,.3);
+    z-index: 11;
+    cursor: pointer;
 }
 
-.timer{
-  font-size:27px;
-  font-weight:bold;
-  margin-top:7px;
+.bomb::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    right: -3px;
+    top: -4px;
+    border-radius: 50%;
+    background: #ff7c44;
+    box-shadow: 0 0 8px #ff562c;
 }
 
-.limit{
-  border:1px solid #173553;
-  padding:12px 16px;
-  border-radius:20px;
-  color:#1a9cff;
-  text-align:center;
+.game-start {
+    position: absolute;
+    z-index: 100;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2,5,16,.65);
 }
 
-/* PAGE TITLE */
-
-.page-title{
-  font-size:30px;
-  margin:5px 0 8px;
+.game-start button {
+    border: 0;
+    border-radius: 18px;
+    padding: 16px 30px;
+    font-weight: 800;
+    font-size: 16px;
+    color: white;
+    background: linear-gradient(135deg, #1d9cff, #665cff);
 }
 
-.page-subtitle{
-  color:#9aa8c0;
-  margin-bottom:20px;
+.game-result {
+    text-align: center;
+    margin-top: 14px;
+    color: #82dfff;
+    font-size: 13px;
 }
 
-/* BIG BALANCE */
-
-.big-balance{
-  text-align:center;
-  padding:30px 15px;
+/* TASKS */
+.task {
+    margin-top: 12px;
+    padding: 16px;
+    border-radius: 19px;
+    background: rgba(12,22,51,.88);
+    border: 1px solid rgba(255,255,255,.06);
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.big-balance strong{
-  display:block;
-  font-size:52px;
-  margin:10px 0;
+.task-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: rgba(54,172,255,.12);
+    font-size: 21px;
 }
 
-.big-balance span{
-  color:#12aaff;
-  font-size:20px;
+.task-info {
+    flex: 1;
 }
 
-/* LIST */
-
-.list-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:17px 0;
-  border-bottom:1px solid #17263b;
+.task-name {
+    font-weight: 700;
+    font-size: 14px;
 }
 
-.list-item:last-child{
-  border-bottom:0;
+.task-reward {
+    margin-top: 4px;
+    color: #5ed7ff;
+    font-size: 12px;
 }
 
-.list-left{
-  display:flex;
-  align-items:center;
-  gap:13px;
+.task button {
+    border: 0;
+    background: #168eff;
+    color: white;
+    border-radius: 11px;
+    padding: 9px 12px;
+    font-size: 11px;
+    font-weight: 700;
 }
 
-.list-icon{
-  width:45px;
-  height:45px;
-  border-radius:13px;
-  background:#112541;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
+.task button.done {
+    background: #1c3157;
+    color: #7088af;
 }
 
-.reward{
-  color:#21d98b;
-  font-weight:bold;
+/* FRIENDS */
+.invite-box {
+    text-align: center;
+    margin-top: 15px;
+    padding: 24px;
+    border-radius: 22px;
+    background: rgba(12,22,51,.88);
+}
+
+.invite-link {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #07122c;
+    color: #76dfff;
+    font-size: 11px;
+    word-break: break-all;
+}
+
+.copy-btn {
+    margin-top: 12px;
+    border: 0;
+    padding: 11px 20px;
+    border-radius: 12px;
+    color: white;
+    background: #168eff;
+    font-weight: 700;
+}
+
+/* WALLET */
+.wallet-card {
+    margin-top: 15px;
+    padding: 23px;
+    border-radius: 22px;
+    background: linear-gradient(145deg, #10295c, #09132f);
+}
+
+.locked {
+    margin-top: 16px;
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(255,190,70,.08);
+    border: 1px solid rgba(255,190,70,.16);
+    color: #e9c57d;
+    font-size: 12px;
+    text-align: center;
 }
 
 /* PROFILE */
-
-.profile-avatar{
-  width:85px;
-  height:85px;
-  margin:auto;
-  border-radius:50%;
-  background:linear-gradient(135deg,#087cff,#742cff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:38px;
+.profile-card {
+    margin-top: 15px;
+    padding: 22px;
+    text-align: center;
+    border-radius: 22px;
+    background: rgba(12,22,51,.9);
 }
 
-.profile-name{
-  text-align:center;
-  font-size:25px;
-  font-weight:bold;
-  margin-top:15px;
+.avatar {
+    width: 75px;
+    height: 75px;
+    margin: auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    background: linear-gradient(135deg, #168eff, #705fff);
 }
 
-.profile-id{
-  text-align:center;
-  color:#8796ae;
-  margin-top:6px;
+.username {
+    margin-top: 12px;
+    font-weight: 800;
 }
 
-/* NAVIGATION */
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  max-width:760px;
-  margin:auto;
-  padding:10px 8px;
-  background:#091321ee;
-  backdrop-filter:blur(15px);
-  border-top:1px solid #172941;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  z-index:100;
+/* NAV */
+.nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(480px, 100%);
+    padding: 10px 7px 12px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    background: rgba(4,8,22,.94);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255,255,255,.07);
+    z-index: 999;
 }
 
-.nav-btn{
-  border:0;
-  background:transparent;
-  color:#8491a8;
-  padding:7px 2px;
-  font-size:11px;
-  cursor:pointer;
+.nav button {
+    border: 0;
+    background: transparent;
+    color: #687fa8;
+    font-size: 10px;
+    padding: 6px 2px;
 }
 
-.nav-btn div{
-  font-size:23px;
-  margin-bottom:4px;
+.nav button span {
+    display: block;
+    font-size: 19px;
+    margin-bottom: 4px;
 }
 
-.nav-btn.active{
-  color:#1598ff;
+.nav button.active {
+    color: #5bd7ff;
 }
 
-/* STATUS */
-
-.status{
-  text-align:center;
-  color:#20d99a;
-  min-height:22px;
-  margin:12px 0;
+/* TOAST */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 90px;
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    padding: 11px 17px;
+    border-radius: 13px;
+    background: #101d3d;
+    border: 1px solid rgba(100,190,255,.2);
+    font-size: 12px;
+    transition: .25s;
+    z-index: 2000;
 }
 
-/* MOBILE */
-
-@media(max-width:430px){
-  .app{
-    padding-left:15px;
-    padding-right:15px;
-  }
-
-  .hero h2{
-    font-size:38px;
-  }
-
-  .pickaxe{
-    font-size:65px;
-  }
-
-  .grid{
-    gap:10px;
-  }
-
-  .card{
-    padding:18px;
-  }
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 </style>
 </head>
@@ -438,832 +504,438 @@ body{
 
 <div class="app">
 
-<!-- ================= HOME ================= -->
+<header class="header">
+    <div class="logo">ZAKASH <span>MINER</span></div>
+    <div class="status">● ONLINE</div>
+</header>
 
+<!-- HOME -->
 <section id="home" class="page active">
 
-  <div class="header">
-    <h1>⛏️ ZAKASH MINER</h1>
-    <div class="logo">Z</div>
-  </div>
-
-  <div class="hero">
-
-    <div>
-      <h2>ZAKASH<br><span>MINER</span></h2>
-      <p>Mine ZKSH every 24 hours</p>
-      <small>⚒ Collect • Earn • Grow</small>
-    </div>
-
-    <div class="pickaxe">⛏️</div>
-
-  </div>
-
-  <div class="user-card">
-
-    <div class="user-info">
-
-      <div class="avatar" id="avatar">U</div>
-
-      <div>
-        <div>Welcome,</div>
-        <div class="user-name" id="userName">User</div>
-        <div class="level">Level 1</div>
-      </div>
-
-    </div>
-
-    <div class="balance-mini">
-      <small>YOUR BALANCE</small>
-      <strong id="homeBalance">0.00</strong>
-      <span>ZKSH</span>
-    </div>
-
-  </div>
-
-  <div class="card mine-card">
-
-    <div class="card-title">DAILY MINING</div>
-
-    <h2 id="mineTitle">Mine Now</h2>
-
-    <p id="mineDescription">
-      Start mining and wait 24 hours to receive 15 ZKSH.
-    </p>
-
-    <button id="mineButton" class="mine-button" onclick="mineNow()">
-      ⛏️ MINE NOW
-    </button>
-
-  </div>
-
-  <div class="status" id="status"></div>
-
-  <div class="grid">
-
-    <div class="card action-card" onclick="showPage('friends')">
-      <div class="icon">👥</div>
-      <h3>Invite Friends</h3>
-      <p>Invite friends and earn more ZKSH.</p>
-    </div>
-
-    <div class="card action-card" onclick="showPage('tasks')">
-      <div class="icon">📺</div>
-      <h3>Watch Ad</h3>
-      <p>Watch ads and earn rewards.</p>
-    </div>
-
-    <div class="card action-card" onclick="showPage('wallet')">
-      <div class="icon">💳</div>
-      <h3>Wallet</h3>
-      <p>View your balance and transactions.</p>
-    </div>
-
-    <div class="card action-card" onclick="showPage('wallet')">
-      <div class="icon">🔒</div>
-      <h3>Withdraw</h3>
-      <p>Withdraw your ZKSH tokens.</p>
-    </div>
-
-  </div>
-
-  <div class="card timer-card">
-
-    <div>
-      <div style="color:#9aa8c0">Next mining available in</div>
-      <div class="timer" id="countdown">READY</div>
-    </div>
-
-    <div class="limit">
-      📅 Daily Limit<br>
-      <b>1 / 1</b>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= FRIENDS ================= -->
-
-<section id="friends" class="page">
-
-  <h1 class="page-title">👥 Friends</h1>
-  <div class="page-subtitle">
-    Invite friends and earn ZKSH together.
-  </div>
-
-  <div class="card big-balance">
-
-    <div style="color:#9aa8c0">INVITE REWARD</div>
-
-    <strong>5 ZKSH</strong>
-
-    <span>per friend</span>
-
-  </div>
-
-  <div class="card">
-
-    <h2>🚀 Invite Friends</h2>
-
-    <p>
-      Share your invitation link with your friends.
-      When the referral system is connected, rewards
-      will be added automatically.
-    </p>
-
-    <button class="mine-button" onclick="inviteFriends()">
-      👥 INVITE FRIENDS
-    </button>
-
-  </div>
-
-  <div class="card">
-
-    <div class="list-item">
-      <div class="list-left">
-        <div class="list-icon">👤</div>
-        <div>
-          <b>Friends Invited</b><br>
-          <small style="color:#8796ae">Your referrals</small>
+    <div class="balance-card">
+        <div class="small-title">Total Balance</div>
+        <div class="balance">
+            <span id="homeBalance">0</span>
+            <span>ZKSH</span>
         </div>
-      </div>
-
-      <strong id="friendCount">0</strong>
+        <div class="subtext">Your ZKSH balance</div>
     </div>
 
-  </div>
+    <div class="mining-box">
+        <div class="mining-top">
+            <div class="mining-title">⛏️ Daily Mining</div>
+            <div class="day" id="dayText">Day 1 / 45</div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill" id="miningProgress"></div>
+        </div>
+
+        <div class="timer" id="mineTimer">Ready to mine</div>
+
+        <button class="main-btn" id="mineBtn" onclick="startMining()">
+            ⛏️ START MINING +15 ZKSH
+        </button>
+    </div>
+
+    <div class="grid">
+        <div class="stat">
+            <div class="label">Mining Rewards</div>
+            <div class="value" id="miningTotal">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="label">Game Rewards</div>
+            <div class="value" id="gameTotal">0</div>
+        </div>
+    </div>
 
 </section>
 
+<!-- GAME -->
+<section id="game" class="page">
 
-<!-- ================= TASKS ================= -->
+    <div class="game-header">
+        <h2>💎 ZKSH DROP</h2>
+        <p>Catch crystals • Avoid bombs</p>
+    </div>
 
+    <div class="game-area" id="gameArea">
+
+        <div class="game-info">
+            <div class="game-pill">💎 <span id="caughtText">0</span> / 200</div>
+            <div class="game-pill">⏱️ <span id="gameTime">40</span>s</div>
+        </div>
+
+        <div class="game-start" id="gameStart">
+            <button onclick="startGame()">START GAME</button>
+        </div>
+
+    </div>
+
+    <div class="game-result" id="gameResult">
+        You have 2 games every 6 hours.
+    </div>
+
+</section>
+
+<!-- TASKS -->
 <section id="tasks" class="page">
 
-  <h1 class="page-title">✅ Tasks</h1>
-
-  <div class="page-subtitle">
-    Complete tasks and earn rewards.
-  </div>
-
-  <div class="card">
-
-    <div class="list-item">
-
-      <div class="list-left">
-
-        <div class="list-icon">📺</div>
-
-        <div>
-          <b>Watch Ad</b><br>
-          <small style="color:#8796ae">
-            Watch an advertisement
-          </small>
-        </div>
-
-      </div>
-
-      <div>
-        <div class="reward">+1 ZKSH</div>
-        <button
-          style="margin-top:7px;background:#087cff;color:white;border:0;padding:8px 13px;border-radius:10px"
-          onclick="watchAd()">
-          START
-        </button>
-      </div>
-
+    <div class="game-header">
+        <h2>🎯 TASKS</h2>
+        <p>Complete tasks and earn ZKSH</p>
     </div>
 
+    <div id="taskList">
 
-    <div class="list-item">
-
-      <div class="list-left">
-
-        <div class="list-icon">📣</div>
-
-        <div>
-          <b>Join Community</b><br>
-          <small style="color:#8796ae">
-            Community task
-          </small>
+        <div class="task">
+            <div class="task-icon">📢</div>
+            <div class="task-info">
+                <div class="task-name">Join Channel</div>
+                <div class="task-reward">+3 ZKSH</div>
+            </div>
+            <button onclick="completeTask(0)">START</button>
         </div>
 
-      </div>
-
-      <div class="reward">+2 ZKSH</div>
-
-    </div>
-
-
-    <div class="list-item">
-
-      <div class="list-left">
-
-        <div class="list-icon">⭐</div>
-
-        <div>
-          <b>Daily Task</b><br>
-          <small style="color:#8796ae">
-            Coming soon
-          </small>
+        <div class="task">
+            <div class="task-icon">👍</div>
+            <div class="task-info">
+                <div class="task-name">Like / Reaction</div>
+                <div class="task-reward">+3 ZKSH</div>
+            </div>
+            <button onclick="completeTask(1)">START</button>
         </div>
 
-      </div>
+        <div class="task">
+            <div class="task-icon">📺</div>
+            <div class="task-info">
+                <div class="task-name">Watch Ad</div>
+                <div class="task-reward">+3 ZKSH</div>
+            </div>
+            <button onclick="completeTask(2)">START</button>
+        </div>
 
-      <div style="color:#8796ae">LOCKED</div>
+        <div class="task">
+            <div class="task-icon">👥</div>
+            <div class="task-info">
+                <div class="task-name">Invite Friend</div>
+                <div class="task-reward">+3 ZKSH</div>
+            </div>
+            <button onclick="completeTask(3)">START</button>
+        </div>
 
     </div>
-
-  </div>
-
-  <div class="status" id="taskStatus"></div>
 
 </section>
 
+<!-- FRIENDS -->
+<section id="friends" class="page">
 
-<!-- ================= WALLET ================= -->
+    <div class="game-header">
+        <h2>👥 FRIENDS</h2>
+        <p>Invite friends and grow your rewards</p>
+    </div>
 
+    <div class="invite-box">
+        <div class="small-title">Your Invite Link</div>
+
+        <div class="invite-link" id="inviteLink">
+            https://t.me/ZakashMinerBot?start=invite_123456
+        </div>
+
+        <button class="copy-btn" onclick="copyInvite()">
+            COPY LINK
+        </button>
+    </div>
+
+    <div class="grid">
+        <div class="stat">
+            <div class="label">Friends</div>
+            <div class="value" id="friendsCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="label">Referral Rewards</div>
+            <div class="value" id="refRewards">0</div>
+        </div>
+    </div>
+
+</section>
+
+<!-- WALLET -->
 <section id="wallet" class="page">
 
-  <h1 class="page-title">💰 Wallet</h1>
-
-  <div class="page-subtitle">
-    Manage your ZKSH balance.
-  </div>
-
-  <div class="card big-balance">
-
-    <div style="color:#9aa8c0">YOUR BALANCE</div>
-
-    <strong id="walletBalance">0.00</strong>
-
-    <span>ZKSH</span>
-
-  </div>
-
-  <div class="card">
-
-    <h2>💳 Wallet</h2>
-
-    <p>
-      Your ZKSH balance is stored locally for this
-      test version.
-    </p>
-
-    <div class="list-item">
-
-      <div class="list-left">
-        <div class="list-icon">🪙</div>
-
-        <div>
-          <b>ZKSH Balance</b><br>
-          <small style="color:#8796ae">
-            Available balance
-          </small>
-        </div>
-      </div>
-
-      <strong id="walletBalance2">0.00</strong>
-
+    <div class="game-header">
+        <h2>💰 WALLET</h2>
+        <p>Your ZKSH balance</p>
     </div>
 
-  </div>
+    <div class="wallet-card">
+        <div class="small-title">Available Balance</div>
 
-  <div class="card">
+        <div class="balance">
+            <span id="walletBalance">0</span>
+            <span>ZKSH</span>
+        </div>
 
-    <h2>🔒 Withdraw</h2>
-
-    <p>
-      Withdraw is currently locked.
-      It will be enabled in a future version.
-    </p>
-
-    <button
-      class="mine-button"
-      style="background:#354052"
-      onclick="withdrawLocked()">
-
-      🔒 WITHDRAW
-
-    </button>
-
-  </div>
+        <div class="locked">
+            🔒 WITHDRAWALS LOCKED<br><br>
+            Withdrawals will be available on the date set by the administrator.
+        </div>
+    </div>
 
 </section>
 
-
-<!-- ================= PROFILE ================= -->
-
+<!-- PROFILE -->
 <section id="profile" class="page">
 
-  <h1 class="page-title">👤 Profile</h1>
-
-  <div class="page-subtitle">
-    Your ZAKASH MINER account.
-  </div>
-
-  <div class="card">
-
-    <div class="profile-avatar" id="profileAvatar">
-      U
+    <div class="game-header">
+        <h2>👤 PROFILE</h2>
+        <p>Your mining statistics</p>
     </div>
 
-    <div class="profile-name" id="profileName">
-      User
+    <div class="profile-card">
+        <div class="avatar">💎</div>
+        <div class="username" id="profileName">ZKSH Miner</div>
+        <div class="subtext">Telegram User</div>
     </div>
 
-    <div class="profile-id" id="profileId">
-      Telegram User
+    <div class="grid">
+        <div class="stat">
+            <div class="label">Total ZKSH</div>
+            <div class="value" id="profileBalance">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="label">Mine Days</div>
+            <div class="value" id="profileDays">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="label">Crystals</div>
+            <div class="value" id="profileCrystals">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="label">Tasks</div>
+            <div class="value" id="profileTasks">0</div>
+        </div>
     </div>
-
-  </div>
-
-  <div class="card">
-
-    <div class="list-item">
-      <div class="list-left">
-        <div class="list-icon">⭐</div>
-        <b>Level</b>
-      </div>
-      <strong>Level 1</strong>
-    </div>
-
-    <div class="list-item">
-      <div class="list-left">
-        <div class="list-icon">🪙</div>
-        <b>Total Balance</b>
-      </div>
-      <strong id="profileBalance">0.00</strong>
-    </div>
-
-    <div class="list-item">
-      <div class="list-left">
-        <div class="list-icon">⛏️</div>
-        <b>Mining Reward</b>
-      </div>
-      <strong>15 ZKSH</strong>
-    </div>
-
-  </div>
 
 </section>
 
 </div>
 
+<!-- NAVIGATION -->
+<nav class="nav">
 
-<!-- ================= BOTTOM NAV ================= -->
+    <button class="active" onclick="showPage('home', this)">
+        <span>🏠</span>Home
+    </button>
 
-<nav class="bottom-nav">
+    <button onclick="showPage('game', this)">
+        <span>💎</span>Game
+    </button>
 
-  <button class="nav-btn active" onclick="showPage('home',this)">
-    <div>🏠</div>
-    Home
-  </button>
+    <button onclick="showPage('tasks', this)">
+        <span>🎯</span>Tasks
+    </button>
 
-  <button class="nav-btn" onclick="showPage('friends',this)">
-    <div>👥</div>
-    Friends
-  </button>
+    <button onclick="showPage('friends', this)">
+        <span>👥</span>Friends
+    </button>
 
-  <button class="nav-btn" onclick="showPage('tasks',this)">
-    <div>✅</div>
-    Tasks
-  </button>
-
-  <button class="nav-btn" onclick="showPage('wallet',this)">
-    <div>💰</div>
-    Wallet
-  </button>
-
-  <button class="nav-btn" onclick="showPage('profile',this)">
-    <div>👤</div>
-    Profile
-  </button>
+    <button onclick="showPage('wallet', this)">
+        <span>💰</span>Wallet
+    </button>
 
 </nav>
 
+<div class="toast" id="toast"></div>
 
 <script>
 
-const tg = window.Telegram && window.Telegram.WebApp;
+/* =========================
+   BASIC DATA
+========================= */
 
-if(tg){
-  tg.ready();
-  tg.expand();
+const START_DATE = new Date("2026-09-05T00:00:00");
+const END_DATE = new Date("2026-10-20T00:00:00");
+
+let balance = Number(localStorage.getItem("zksh_balance") || 0);
+let miningTotal = Number(localStorage.getItem("mining_total") || 0);
+let gameTotal = Number(localStorage.getItem("game_total") || 0);
+let crystalsTotal = Number(localStorage.getItem("crystals_total") || 0);
+let mineCount = Number(localStorage.getItem("mine_count") || 0);
+let taskCount = Number(localStorage.getItem("task_count") || 0);
+let friendsCount = Number(localStorage.getItem("friends_count") || 0);
+let refRewards = Number(localStorage.getItem("ref_rewards") || 0);
+
+let miningStartedAt = localStorage.getItem("mining_started_at");
+let lastMineClaim = localStorage.getItem("last_mine_claim");
+
+let tasks = JSON.parse(
+    localStorage.getItem("tasks_state") ||
+    JSON.stringify([0,0,0,0])
+);
+
+let gamesPlayed = Number(localStorage.getItem("games_played") || 0);
+let gameWindowStart = localStorage.getItem("game_window_start");
+
+let currentGame = null;
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveData() {
+    localStorage.setItem("zksh_balance", balance);
+    localStorage.setItem("mining_total", miningTotal);
+    localStorage.setItem("game_total", gameTotal);
+    localStorage.setItem("crystals_total", crystalsTotal);
+    localStorage.setItem("mine_count", mineCount);
+    localStorage.setItem("task_count", taskCount);
+    localStorage.setItem("friends_count", friendsCount);
+    localStorage.setItem("ref_rewards", refRewards);
+    localStorage.setItem("tasks_state", JSON.stringify(tasks));
+
+    if (miningStartedAt)
+        localStorage.setItem("mining_started_at", miningStartedAt);
+
+    if (lastMineClaim)
+        localStorage.setItem("last_mine_claim", lastMineClaim);
+
+    localStorage.setItem("games_played", gamesPlayed);
+
+    if (gameWindowStart)
+        localStorage.setItem("game_window_start", gameWindowStart);
 }
 
 
-/* ================= DATA ================= */
+/* =========================
+   UI
+========================= */
 
-let balance =
-  parseFloat(localStorage.getItem("zksh_balance")) || 0;
+function updateUI() {
 
-let miningEnd =
-  parseInt(localStorage.getItem("zksh_mining_end")) || 0;
+    document.getElementById("homeBalance").textContent =
+        Math.floor(balance);
 
-let miningRewardReady =
-  localStorage.getItem("zksh_reward_ready") === "true";
+    document.getElementById("walletBalance").textContent =
+        Math.floor(balance);
+
+    document.getElementById("profileBalance").textContent =
+        Math.floor(balance);
+
+    document.getElementById("miningTotal").textContent =
+        Math.floor(miningTotal);
+
+    document.getElementById("gameTotal").textContent =
+        Math.floor(gameTotal);
+
+    document.getElementById("friendsCount").textContent =
+        friendsCount;
+
+    document.getElementById("refRewards").textContent =
+        Math.floor(refRewards);
+
+    document.getElementById("profileDays").textContent =
+        mineCount;
+
+    document.getElementById("profileCrystals").textContent =
+        crystalsTotal;
+
+    document.getElementById("profileTasks").textContent =
+        taskCount;
+
+    updateMiningUI();
+    updateTasksUI();
+}
 
 
-/* ================= USER ================= */
+/* =========================
+   PAGE NAVIGATION
+========================= */
 
-function loadUser(){
+function showPage(pageId, button) {
 
-  let user = null;
+    document.querySelectorAll(".page")
+        .forEach(p => p.classList.remove("active"));
 
-  if(tg && tg.initDataUnsafe){
-    user = tg.initDataUnsafe.user;
-  }
+    document.getElementById(pageId)
+        .classList.add("active");
 
-  if(user){
+    document.querySelectorAll(".nav button")
+        .forEach(b => b.classList.remove("active"));
 
-    let name =
-      user.first_name ||
-      user.username ||
-      "User";
+    if (button)
+        button.classList.add("active");
+}
 
-    document.getElementById("userName").textContent = name;
-    document.getElementById("profileName").textContent = name;
 
-    let letter =
-      name.charAt(0).toUpperCase();
+/* =========================
+   MINING
+========================= */
 
-    document.getElementById("avatar").textContent = letter;
-    document.getElementById("profileAvatar").textContent = letter;
+function startMining() {
 
-    if(user.username){
-      document.getElementById("profileId").textContent =
-        "@" + user.username;
-    }else{
-      document.getElementById("profileId").textContent =
-        "Telegram User";
+    const now = new Date();
+
+    if (now < START_DATE) {
+        toast("Mining has not started yet.");
+        return;
     }
 
-  }
+    if (now >= END_DATE) {
+        toast("The 45-day mining period has ended.");
+        return;
+    }
 
-}
+    if (lastMineClaim) {
 
+        const last = new Date(lastMineClaim);
+        const hours =
+            (now - last) / 3600000;
 
-/* ================= PAGE SYSTEM ================= */
-
-function showPage(page,button){
-
-  document.querySelectorAll(".page")
-    .forEach(p => p.classList.remove("active"));
-
-  document.getElementById(page)
-    .classList.add("active");
-
-  document.querySelectorAll(".nav-btn")
-    .forEach(b => b.classList.remove("active"));
-
-  if(button){
-    button.classList.add("active");
-  }else{
-
-    document.querySelectorAll(".nav-btn")
-      .forEach(b => {
-
-        if(
-          b.textContent
-            .toLowerCase()
-            .includes(page === "home" ? "home" : page)
-        ){
-          b.classList.add("active");
+        if (hours < 24) {
+            toast("Mining is still active.");
+            return;
         }
-
-      });
-
-  }
-
-  updateUI();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* ================= SAVE ================= */
-
-function saveData(){
-
-  localStorage.setItem(
-    "zksh_balance",
-    balance
-  );
-
-  localStorage.setItem(
-    "zksh_mining_end",
-    miningEnd
-  );
-
-  localStorage.setItem(
-    "zksh_reward_ready",
-    miningRewardReady
-  );
-
-}
-
-
-/* ================= MINING ================= */
-
-function mineNow(){
-
-  const now = Date.now();
-
-  /* Already mining */
-
-  if(miningEnd > now){
-
-    document.getElementById("status").textContent =
-      "⏳ Mining is already running.";
-
-    return;
-  }
-
-
-  /* Reward ready */
-
-  if(miningRewardReady){
+    }
 
     balance += 15;
+    miningTotal += 15;
+    mineCount++;
 
-    miningRewardReady = false;
-    miningEnd = 0;
+    miningStartedAt = now.toISOString();
+    lastMineClaim = now.toISOString();
 
     saveData();
     updateUI();
 
-    document.getElementById("status").textContent =
-      "🎉 You received +15 ZKSH!";
-
-    return;
-  }
-
-
-  /* Start 24 hour mining */
-
-  miningEnd =
-    now + (24 * 60 * 60 * 1000);
-
-  miningRewardReady = false;
-
-  saveData();
-  updateUI();
-
-  document.getElementById("status").textContent =
-    "⛏️ Mining started! Come back after 24 hours.";
-
+    toast("+15 ZKSH Mining Reward");
 }
 
 
-/* ================= COUNTDOWN ================= */
+function updateMiningUI() {
 
-function updateMining(){
+    const now = new Date();
 
-  const now = Date.now();
+    const elapsedDays =
+        Math.floor(
+            (now - START_DATE) / 86400000
+        ) + 1;
 
-  const button =
-    document.getElementById("mineButton");
+    const day =
+        Math.max(1, Math.min(45, elapsedDays));
 
-  const title =
-    document.getElementById("mineTitle");
+    document.getElementById("dayText").textContent =
+        "Day " + day + " / 45";
 
-  const description =
-    document.getElementById("mineDescription");
+    const progress =
+        Math.min(100, (day / 45) * 100);
 
-  const countdown =
-    document.getElementById("countdown");
-
-
-  /* Timer running */
-
-  if(miningEnd > now){
-
-    const diff =
-      miningEnd - now;
-
-    const hours =
-      Math.floor(diff / 3600000);
-
-    const minutes =
-      Math.floor(
-        (diff % 3600000) / 60000
-      );
-
-    const seconds =
-      Math.floor(
-        (diff % 60000) / 1000
-      );
-
-    const h =
-      String(hours).padStart(2,"0");
-
-    const m =
-      String(minutes).padStart(2,"0");
-
-    const s =
-      String(seconds).padStart(2,"0");
-
-    countdown.textContent =
-      h + ":" + m + ":" + s;
-
-    title.textContent =
-      "Mining in progress";
-
-    description.textContent =
-      "⛏️ Your mining session is running. Reward: 15 ZKSH.";
-
-    button.disabled = true;
-
-    button.textContent =
-      "⏳ MINING...";
-
-    return;
-  }
-
-
-  /* Reward available */
-
-  if(miningRewardReady){
-
-    countdown.textContent =
-      "READY";
-
-    title.textContent =
-      "15 ZKSH READY";
-
-    description.textContent =
-      "Your 24-hour mining is complete. Claim your 15 ZKSH.";
-
-    button.disabled = false;
-
-    button.textContent =
-      "🎁 CLAIM 15 ZKSH";
-
-    return;
-  }
-
-
-  /* Start available */
-
-  countdown.textContent =
-    "READY";
-
-  title.textContent =
-    "Mine Now";
-
-  description.textContent =
-    "Start mining and wait 24 hours to receive 15 ZKSH.";
-
-  button.disabled = false;
-
-  button.textContent =
-    "⛏️ MINE NOW";
-
-}
-
-
-/* ================= AUTO COMPLETE ================= */
-
-function checkMining(){
-
-  const now = Date.now();
-
-  if(
-    miningEnd > 0 &&
-    now >= miningEnd &&
-    !miningRewardReady
-  ){
-
-    miningRewardReady = true;
-
-    saveData();
-
-  }
-
-  updateMining();
-
-}
-
-
-/* ================= UI ================= */
-
-function updateUI(){
-
-  document.getElementById("homeBalance")
-    .textContent =
-    balance.toFixed(2);
-
-  document.getElementById("walletBalance")
-    .textContent =
-    balance.toFixed(2);
-
-  document.getElementById("walletBalance2")
-    .textContent =
-    balance.toFixed(2);
-
-  document.getElementById("profileBalance")
-    .textContent =
-    balance.toFixed(2);
-
-  checkMining();
-
-}
-
-
-/* ================= INVITE ================= */
-
-function inviteFriends(){
-
-  const botUsername =
-    "ZakashMinerBot";
-
-  const text =
-    "🚀 Join ZAKASH MINER and start mining ZKSH!";
-
-  const url =
-    "https://t.me/" +
-    botUsername +
-    "?start=invite";
-
-
-  const share =
-    "https://t.me/share/url?url=" +
-    encodeURIComponent(url) +
-    "&text=" +
-    encodeURIComponent(text);
-
-
-  if(tg && tg.openTelegramLink){
-
-    tg.openTelegramLink(share);
-
-  }else{
-
-    window.open(
-      share,
-      "_blank"
-    );
-
-  }
-
-}
-
-
-/* ================= ADS ================= */
-
-function watchAd(){
-
-  document.getElementById("taskStatus")
-    .textContent =
-    "📺 Ads will be connected in a future version.";
-
-}
-
-
-/* ================= WITHDRAW ================= */
-
-function withdrawLocked(){
-
-  if(tg && tg.showAlert){
-
-    tg.showAlert(
-      "🔒 Withdraw is currently locked.\nIt will be enabled in a future version."
-    );
-
-  }else{
-
-    alert(
-      "🔒 Withdraw is currently locked.\nIt will be enabled in a future version."
-    );
-
-  }
-
-}
-
-
-/* ================= START ================= */
-
-loadUser();
-
-updateUI();
-
-
-setInterval(function(){
-
-  checkMining();
-
-  updateUI();
-
-},1000);
-
-</script>
-
-</body>
-  </html>
+    document.getElementById("miningProgress").style.width =
+        progress + "%"
