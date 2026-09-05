@@ -1,941 +1,1028 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ZAKASH MINER</title>
-
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background:
-        radial-gradient(circle at top, #14265c 0%, #080d20 45%, #03050d 100%);
-    color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-button {
-    font-family: inherit;
-}
-
-.app {
-    max-width: 480px;
-    min-height: 100vh;
-    margin: auto;
-    padding-bottom: 85px;
-}
-
-/* HEADER */
-.header {
-    padding: 22px 20px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-.logo span {
-    color: #45c8ff;
-}
-
-.status {
-    background: rgba(53, 201, 255, .12);
-    border: 1px solid rgba(53, 201, 255, .3);
-    padding: 7px 11px;
-    border-radius: 20px;
-    font-size: 11px;
-    color: #75dfff;
-}
-
-/* PAGES */
-.page {
-    display: none;
-    padding: 12px 18px;
-}
-
-.page.active {
-    display: block;
-}
-
-/* BALANCE */
-.balance-card {
-    margin-top: 12px;
-    padding: 25px 20px;
-    border-radius: 24px;
-    background:
-        linear-gradient(145deg, rgba(28,58,125,.95), rgba(9,17,45,.96));
-    border: 1px solid rgba(91,190,255,.22);
-    box-shadow: 0 15px 45px rgba(0,0,0,.3);
-    text-align: center;
-}
-
-.small-title {
-    color: #91a8cf;
-    font-size: 12px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.balance {
-    font-size: 39px;
-    font-weight: 800;
-}
-
-.balance span {
-    color: #4dcaff;
-    font-size: 17px;
-}
-
-.subtext {
-    margin-top: 7px;
-    color: #8096bd;
-    font-size: 12px;
-}
-
-/* BUTTON */
-.main-btn {
-    width: 100%;
-    border: 0;
-    margin-top: 18px;
-    padding: 16px;
-    border-radius: 17px;
-    color: white;
-    font-size: 16px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #198cff, #655cff);
-    box-shadow: 0 10px 30px rgba(38,117,255,.28);
-}
-
-.main-btn:disabled {
-    opacity: .45;
-}
-
-/* MINING */
-.mining-box {
-    margin-top: 16px;
-    padding: 20px;
-    border-radius: 22px;
-    background: rgba(12,22,51,.86);
-    border: 1px solid rgba(92,170,255,.15);
-}
-
-.mining-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.mining-title {
-    font-size: 17px;
-    font-weight: 800;
-}
-
-.day {
-    color: #62d3ff;
-    font-size: 12px;
-}
-
-.progress {
-    height: 8px;
-    background: #101a36;
-    border-radius: 20px;
-    margin: 18px 0 10px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #36c9ff, #7164ff);
-    border-radius: 20px;
-    transition: width .3s;
-}
-
-.timer {
-    text-align: center;
-    color: #a9bde0;
-    font-size: 13px;
-}
-
-/* CARDS */
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 16px;
-}
-
-.stat {
-    padding: 17px;
-    border-radius: 18px;
-    background: rgba(12,22,51,.85);
-    border: 1px solid rgba(255,255,255,.06);
-}
-
-.stat .value {
-    font-size: 21px;
-    font-weight: 800;
-    margin-top: 7px;
-}
-
-.stat .label {
-    color: #8095bc;
-    font-size: 11px;
-}
-
-/* GAME */
-.game-header {
-    text-align: center;
-    margin: 10px 0 15px;
-}
-
-.game-header h2 {
-    font-size: 25px;
-}
-
-.game-header p {
-    color: #8ea6cf;
-    font-size: 12px;
-    margin-top: 6px;
-}
-
-.game-area {
-    position: relative;
-    width: 100%;
-    height: 510px;
-    overflow: hidden;
-    border-radius: 25px;
-    background:
-        radial-gradient(circle at 50% 20%, rgba(60,110,255,.2), transparent 35%),
-        linear-gradient(#07122f, #030718);
-    border: 1px solid rgba(80,180,255,.18);
-    touch-action: none;
-}
-
-.game-info {
-    position: absolute;
-    z-index: 50;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-}
-
-.game-pill {
-    background: rgba(4,10,27,.78);
-    border: 1px solid rgba(255,255,255,.1);
-    padding: 7px 10px;
-    border-radius: 12px;
-    font-size: 11px;
-}
-
-.crystal {
-    position: absolute;
-    width: 18px;
-    height: 24px;
-    background: linear-gradient(135deg, #8df3ff, #168eff);
-    clip-path: polygon(50% 0%, 90% 28%, 75% 100%, 25% 100%, 10% 28%);
-    box-shadow:
-        0 0 10px #28cfff,
-        0 0 20px rgba(35,169,255,.55);
-    cursor: pointer;
-    z-index: 10;
-    animation: crystalGlow 1s infinite alternate;
-}
-
-@keyframes crystalGlow {
-    from { filter: brightness(.85); }
-    to { filter: brightness(1.2); }
-}
-
-.bomb {
-    position: absolute;
-    width: 23px;
-    height: 23px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #606070, #11121c 60%);
-    box-shadow: 0 0 8px rgba(255,80,80,.3);
-    z-index: 11;
-    cursor: pointer;
-}
-
-.bomb::after {
-    content: "";
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    right: -3px;
-    top: -4px;
-    border-radius: 50%;
-    background: #ff7c44;
-    box-shadow: 0 0 8px #ff562c;
-}
-
-.game-start {
-    position: absolute;
-    z-index: 100;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(2,5,16,.65);
-}
-
-.game-start button {
-    border: 0;
-    border-radius: 18px;
-    padding: 16px 30px;
-    font-weight: 800;
-    font-size: 16px;
-    color: white;
-    background: linear-gradient(135deg, #1d9cff, #665cff);
-}
-
-.game-result {
-    text-align: center;
-    margin-top: 14px;
-    color: #82dfff;
-    font-size: 13px;
-}
-
-/* TASKS */
-.task {
-    margin-top: 12px;
-    padding: 16px;
-    border-radius: 19px;
-    background: rgba(12,22,51,.88);
-    border: 1px solid rgba(255,255,255,.06);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.task-icon {
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 13px;
-    background: rgba(54,172,255,.12);
-    font-size: 21px;
-}
-
-.task-info {
-    flex: 1;
-}
-
-.task-name {
-    font-weight: 700;
-    font-size: 14px;
-}
-
-.task-reward {
-    margin-top: 4px;
-    color: #5ed7ff;
-    font-size: 12px;
-}
-
-.task button {
-    border: 0;
-    background: #168eff;
-    color: white;
-    border-radius: 11px;
-    padding: 9px 12px;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.task button.done {
-    background: #1c3157;
-    color: #7088af;
-}
-
-/* FRIENDS */
-.invite-box {
-    text-align: center;
-    margin-top: 15px;
-    padding: 24px;
-    border-radius: 22px;
-    background: rgba(12,22,51,.88);
-}
-
-.invite-link {
-    margin-top: 15px;
-    padding: 12px;
-    border-radius: 12px;
-    background: #07122c;
-    color: #76dfff;
-    font-size: 11px;
-    word-break: break-all;
-}
-
-.copy-btn {
-    margin-top: 12px;
-    border: 0;
-    padding: 11px 20px;
-    border-radius: 12px;
-    color: white;
-    background: #168eff;
-    font-weight: 700;
-}
-
-/* WALLET */
-.wallet-card {
-    margin-top: 15px;
-    padding: 23px;
-    border-radius: 22px;
-    background: linear-gradient(145deg, #10295c, #09132f);
-}
-
-.locked {
-    margin-top: 16px;
-    padding: 15px;
-    border-radius: 15px;
-    background: rgba(255,190,70,.08);
-    border: 1px solid rgba(255,190,70,.16);
-    color: #e9c57d;
-    font-size: 12px;
-    text-align: center;
-}
-
-/* PROFILE */
-.profile-card {
-    margin-top: 15px;
-    padding: 22px;
-    text-align: center;
-    border-radius: 22px;
-    background: rgba(12,22,51,.9);
-}
-
-.avatar {
-    width: 75px;
-    height: 75px;
-    margin: auto;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    background: linear-gradient(135deg, #168eff, #705fff);
-}
-
-.username {
-    margin-top: 12px;
-    font-weight: 800;
-}
-
-/* NAV */
-.nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(480px, 100%);
-    padding: 10px 7px 12px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
-    background: rgba(4,8,22,.94);
-    backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255,255,255,.07);
-    z-index: 999;
-}
-
-.nav button {
-    border: 0;
-    background: transparent;
-    color: #687fa8;
-    font-size: 10px;
-    padding: 6px 2px;
-}
-
-.nav button span {
-    display: block;
-    font-size: 19px;
-    margin-bottom: 4px;
-}
-
-.nav button.active {
-    color: #5bd7ff;
-}
-
-/* TOAST */
-.toast {
-    position: fixed;
-    left: 50%;
-    bottom: 90px;
-    transform: translateX(-50%) translateY(20px);
-    opacity: 0;
-    pointer-events: none;
-    padding: 11px 17px;
-    border-radius: 13px;
-    background: #101d3d;
-    border: 1px solid rgba(100,190,255,.2);
-    font-size: 12px;
-    transition: .25s;
-    z-index: 2000;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-<header class="header">
-    <div class="logo">ZAKASH <span>MINER</span></div>
-    <div class="status">● ONLINE</div>
-</header>
-
-<!-- HOME -->
-<section id="home" class="page active">
-
-    <div class="balance-card">
-        <div class="small-title">Total Balance</div>
-        <div class="balance">
-            <span id="homeBalance">0</span>
-            <span>ZKSH</span>
-        </div>
-        <div class="subtext">Your ZKSH balance</div>
-    </div>
-
-    <div class="mining-box">
-        <div class="mining-top">
-            <div class="mining-title">⛏️ Daily Mining</div>
-            <div class="day" id="dayText">Day 1 / 45</div>
-        </div>
-
-        <div class="progress">
-            <div class="progress-fill" id="miningProgress"></div>
-        </div>
-
-        <div class="timer" id="mineTimer">Ready to mine</div>
-
-        <button class="main-btn" id="mineBtn" onclick="startMining()">
-            ⛏️ START MINING +15 ZKSH
-        </button>
-    </div>
-
-    <div class="grid">
-        <div class="stat">
-            <div class="label">Mining Rewards</div>
-            <div class="value" id="miningTotal">0</div>
-        </div>
-
-        <div class="stat">
-            <div class="label">Game Rewards</div>
-            <div class="value" id="gameTotal">0</div>
-        </div>
-    </div>
-
-</section>
-
-<!-- GAME -->
-<section id="game" class="page">
-
-    <div class="game-header">
-        <h2>💎 ZKSH DROP</h2>
-        <p>Catch crystals • Avoid bombs</p>
-    </div>
-
-    <div class="game-area" id="gameArea">
-
-        <div class="game-info">
-            <div class="game-pill">💎 <span id="caughtText">0</span> / 200</div>
-            <div class="game-pill">⏱️ <span id="gameTime">40</span>s</div>
-        </div>
-
-        <div class="game-start" id="gameStart">
-            <button onclick="startGame()">START GAME</button>
-        </div>
-
-    </div>
-
-    <div class="game-result" id="gameResult">
-        You have 2 games every 6 hours.
-    </div>
-
-</section>
-
-<!-- TASKS -->
-<section id="tasks" class="page">
-
-    <div class="game-header">
-        <h2>🎯 TASKS</h2>
-        <p>Complete tasks and earn ZKSH</p>
-    </div>
-
-    <div id="taskList">
-
-        <div class="task">
-            <div class="task-icon">📢</div>
-            <div class="task-info">
-                <div class="task-name">Join Channel</div>
-                <div class="task-reward">+3 ZKSH</div>
-            </div>
-            <button onclick="completeTask(0)">START</button>
-        </div>
-
-        <div class="task">
-            <div class="task-icon">👍</div>
-            <div class="task-info">
-                <div class="task-name">Like / Reaction</div>
-                <div class="task-reward">+3 ZKSH</div>
-            </div>
-            <button onclick="completeTask(1)">START</button>
-        </div>
-
-        <div class="task">
-            <div class="task-icon">📺</div>
-            <div class="task-info">
-                <div class="task-name">Watch Ad</div>
-                <div class="task-reward">+3 ZKSH</div>
-            </div>
-            <button onclick="completeTask(2)">START</button>
-        </div>
-
-        <div class="task">
-            <div class="task-icon">👥</div>
-            <div class="task-info">
-                <div class="task-name">Invite Friend</div>
-                <div class="task-reward">+3 ZKSH</div>
-            </div>
-            <button onclick="completeTask(3)">START</button>
-        </div>
-
-    </div>
-
-</section>
-
-<!-- FRIENDS -->
-<section id="friends" class="page">
-
-    <div class="game-header">
-        <h2>👥 FRIENDS</h2>
-        <p>Invite friends and grow your rewards</p>
-    </div>
-
-    <div class="invite-box">
-        <div class="small-title">Your Invite Link</div>
-
-        <div class="invite-link" id="inviteLink">
-            https://t.me/ZakashMinerBot?start=invite_123456
-        </div>
-
-        <button class="copy-btn" onclick="copyInvite()">
-            COPY LINK
-        </button>
-    </div>
-
-    <div class="grid">
-        <div class="stat">
-            <div class="label">Friends</div>
-            <div class="value" id="friendsCount">0</div>
-        </div>
-
-        <div class="stat">
-            <div class="label">Referral Rewards</div>
-            <div class="value" id="refRewards">0</div>
-        </div>
-    </div>
-
-</section>
-
-<!-- WALLET -->
-<section id="wallet" class="page">
-
-    <div class="game-header">
-        <h2>💰 WALLET</h2>
-        <p>Your ZKSH balance</p>
-    </div>
-
-    <div class="wallet-card">
-        <div class="small-title">Available Balance</div>
-
-        <div class="balance">
-            <span id="walletBalance">0</span>
-            <span>ZKSH</span>
-        </div>
-
-        <div class="locked">
-            🔒 WITHDRAWALS LOCKED<br><br>
-            Withdrawals will be available on the date set by the administrator.
-        </div>
-    </div>
-
-</section>
-
-<!-- PROFILE -->
-<section id="profile" class="page">
-
-    <div class="game-header">
-        <h2>👤 PROFILE</h2>
-        <p>Your mining statistics</p>
-    </div>
-
-    <div class="profile-card">
-        <div class="avatar">💎</div>
-        <div class="username" id="profileName">ZKSH Miner</div>
-        <div class="subtext">Telegram User</div>
-    </div>
-
-    <div class="grid">
-        <div class="stat">
-            <div class="label">Total ZKSH</div>
-            <div class="value" id="profileBalance">0</div>
-        </div>
-
-        <div class="stat">
-            <div class="label">Mine Days</div>
-            <div class="value" id="profileDays">0</div>
-        </div>
-
-        <div class="stat">
-            <div class="label">Crystals</div>
-            <div class="value" id="profileCrystals">0</div>
-        </div>
-
-        <div class="stat">
-            <div class="label">Tasks</div>
-            <div class="value" id="profileTasks">0</div>
-        </div>
-    </div>
-
-</section>
-
-</div>
-
-<!-- NAVIGATION -->
-<nav class="nav">
-
-    <button class="active" onclick="showPage('home', this)">
-        <span>🏠</span>Home
-    </button>
-
-    <button onclick="showPage('game', this)">
-        <span>💎</span>Game
-    </button>
-
-    <button onclick="showPage('tasks', this)">
-        <span>🎯</span>Tasks
-    </button>
-
-    <button onclick="showPage('friends', this)">
-        <span>👥</span>Friends
-    </button>
-
-    <button onclick="showPage('wallet', this)">
-        <span>💰</span>Wallet
-    </button>
-
-</nav>
-
-<div class="toast" id="toast"></div>
-
-<script>
-
-/* =========================
-   BASIC DATA
-========================= */
-
-const START_DATE = new Date("2026-09-05T00:00:00");
-const END_DATE = new Date("2026-10-20T00:00:00");
-
-let balance = Number(localStorage.getItem("zksh_balance") || 0);
-let miningTotal = Number(localStorage.getItem("mining_total") || 0);
-let gameTotal = Number(localStorage.getItem("game_total") || 0);
-let crystalsTotal = Number(localStorage.getItem("crystals_total") || 0);
-let mineCount = Number(localStorage.getItem("mine_count") || 0);
-let taskCount = Number(localStorage.getItem("task_count") || 0);
-let friendsCount = Number(localStorage.getItem("friends_count") || 0);
-let refRewards = Number(localStorage.getItem("ref_rewards") || 0);
-
-let miningStartedAt = localStorage.getItem("mining_started_at");
-let lastMineClaim = localStorage.getItem("last_mine_claim");
-
-let tasks = JSON.parse(
-    localStorage.getItem("tasks_state") ||
-    JSON.stringify([0,0,0,0])
+"use strict";
+
+const express = require("express");
+const Database = require("better-sqlite3");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const crypto = require("crypto");
+
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+const BOT_TOKEN = process.env.BOT_TOKEN || "";
+const ADMIN_KEY = process.env.ADMIN_KEY || "";
+
+const START_DATE = new Date("2026-09-05T00:00:00Z");
+const END_DATE = new Date("2026-10-20T00:00:00Z");
+
+const DAILY_MINING = 15;
+const TASK_REWARD = 3;
+
+const GAME_DURATION = 40;
+const GAME_CRYSTALS = 200;
+const GAME_BOMBS = 8;
+
+const db = new Database("zakash.db");
+
+db.pragma("journal_mode = WAL");
+db.pragma("foreign_keys = ON");
+
+db.exec(`
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY,
+    telegram_id TEXT UNIQUE NOT NULL,
+    username TEXT DEFAULT '',
+    first_name TEXT DEFAULT '',
+    balance INTEGER NOT NULL DEFAULT 0,
+    mining_total INTEGER NOT NULL DEFAULT 0,
+    game_total INTEGER NOT NULL DEFAULT 0,
+    crystals_total INTEGER NOT NULL DEFAULT 0,
+    task_total INTEGER NOT NULL DEFAULT 0,
+    referral_total INTEGER NOT NULL DEFAULT 0,
+    friends_count INTEGER NOT NULL DEFAULT 0,
+    last_mining INTEGER DEFAULT 0,
+    created_at INTEGER NOT NULL
 );
 
-let gamesPlayed = Number(localStorage.getItem("games_played") || 0);
-let gameWindowStart = localStorage.getItem("game_window_start");
+CREATE TABLE IF NOT EXISTS tasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    telegram_id TEXT NOT NULL,
+    task_key TEXT NOT NULL,
+    completed_at INTEGER NOT NULL,
+    UNIQUE(telegram_id, task_key, completed_at)
+);
 
-let currentGame = null;
+CREATE TABLE IF NOT EXISTS games (
+    id TEXT PRIMARY KEY,
+    telegram_id TEXT NOT NULL,
+    started_at INTEGER NOT NULL,
+    expires_at INTEGER NOT NULL,
+    crystals INTEGER NOT NULL DEFAULT 0,
+    bombs_hit INTEGER NOT NULL DEFAULT 0,
+    score INTEGER NOT NULL DEFAULT 0,
+    finished INTEGER NOT NULL DEFAULT 0
+);
 
+CREATE TABLE IF NOT EXISTS game_hits (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    game_id TEXT NOT NULL,
+    object_id TEXT NOT NULL,
+    object_type TEXT NOT NULL,
+    hit_at INTEGER NOT NULL,
+    UNIQUE(game_id, object_id)
+);
 
-/* =========================
-   SAVE
-========================= */
+CREATE TABLE IF NOT EXISTS referrals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    inviter TEXT NOT NULL,
+    invited TEXT UNIQUE NOT NULL,
+    created_at INTEGER NOT NULL
+);
+`);
 
-function saveData() {
-    localStorage.setItem("zksh_balance", balance);
-    localStorage.setItem("mining_total", miningTotal);
-    localStorage.setItem("game_total", gameTotal);
-    localStorage.setItem("crystals_total", crystalsTotal);
-    localStorage.setItem("mine_count", mineCount);
-    localStorage.setItem("task_count", taskCount);
-    localStorage.setItem("friends_count", friendsCount);
-    localStorage.setItem("ref_rewards", refRewards);
-    localStorage.setItem("tasks_state", JSON.stringify(tasks));
+app.use(helmet({
+    contentSecurityPolicy: false
+}));
 
-    if (miningStartedAt)
-        localStorage.setItem("mining_started_at", miningStartedAt);
+app.use(express.json({
+    limit: "20kb"
+}));
 
-    if (lastMineClaim)
-        localStorage.setItem("last_mine_claim", lastMineClaim);
+const apiLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: 120,
+    standardHeaders: true,
+    legacyHeaders: false
+});
 
-    localStorage.setItem("games_played", gamesPlayed);
+app.use("/api", apiLimiter);
 
-    if (gameWindowStart)
-        localStorage.setItem("game_window_start", gameWindowStart);
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function now() {
+    return Date.now();
 }
 
-
-/* =========================
-   UI
-========================= */
-
-function updateUI() {
-
-    document.getElementById("homeBalance").textContent =
-        Math.floor(balance);
-
-    document.getElementById("walletBalance").textContent =
-        Math.floor(balance);
-
-    document.getElementById("profileBalance").textContent =
-        Math.floor(balance);
-
-    document.getElementById("miningTotal").textContent =
-        Math.floor(miningTotal);
-
-    document.getElementById("gameTotal").textContent =
-        Math.floor(gameTotal);
-
-    document.getElementById("friendsCount").textContent =
-        friendsCount;
-
-    document.getElementById("refRewards").textContent =
-        Math.floor(refRewards);
-
-    document.getElementById("profileDays").textContent =
-        mineCount;
-
-    document.getElementById("profileCrystals").textContent =
-        crystalsTotal;
-
-    document.getElementById("profileTasks").textContent =
-        taskCount;
-
-    updateMiningUI();
-    updateTasksUI();
+function randomId(bytes = 24) {
+    return crypto.randomBytes(bytes).toString("hex");
 }
 
-
-/* =========================
-   PAGE NAVIGATION
-========================= */
-
-function showPage(pageId, button) {
-
-    document.querySelectorAll(".page")
-        .forEach(p => p.classList.remove("active"));
-
-    document.getElementById(pageId)
-        .classList.add("active");
-
-    document.querySelectorAll(".nav button")
-        .forEach(b => b.classList.remove("active"));
-
-    if (button)
-        button.classList.add("active");
+function hmac(data) {
+    return crypto
+        .createHmac("sha256", BOT_TOKEN || "CHANGE_ME")
+        .update(data)
+        .digest("hex");
 }
 
+function safeUser(user) {
+    return {
+        id: user.telegram_id,
+        username: user.username,
+        firstName: user.first_name,
+        balance: user.balance,
+        miningTotal: user.mining_total,
+        gameTotal: user.game_total,
+        crystalsTotal: user.crystals_total,
+        taskTotal: user.task_total,
+        referralTotal: user.referral_total,
+        friends: user.friends_count,
+        lastMining: user.last_mining
+    };
+}
 
-/* =========================
-   MINING
-========================= */
+/*
+ Telegram WebApp initData validation.
+ The BOT_TOKEN must ONLY exist on the server.
+*/
 
-function startMining() {
+function validateTelegramInitData(initData) {
 
-    const now = new Date();
-
-    if (now < START_DATE) {
-        toast("Mining has not started yet.");
-        return;
+    if (!BOT_TOKEN) {
+        return {
+            ok: false,
+            error: "BOT_TOKEN is not configured"
+        };
     }
 
-    if (now >= END_DATE) {
-        toast("The 45-day mining period has ended.");
-        return;
+    if (!initData || typeof initData !== "string") {
+        return {
+            ok: false,
+            error: "Missing Telegram initData"
+        };
     }
 
-    if (lastMineClaim) {
+    try {
 
-        const last = new Date(lastMineClaim);
-        const hours =
-            (now - last) / 3600000;
+        const params = new URLSearchParams(initData);
 
-        if (hours < 24) {
-            toast("Mining is still active.");
-            return;
+        const receivedHash = params.get("hash");
+
+        if (!receivedHash) {
+            return {
+                ok: false,
+                error: "Missing hash"
+            };
         }
+
+        params.delete("hash");
+
+        const dataCheckString = [...params.entries()]
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([key, value]) => `${key}=${value}`)
+            .join("\n");
+
+        const secretKey = crypto
+            .createHmac("sha256", "WebAppData")
+            .update(BOT_TOKEN)
+            .digest();
+
+        const calculatedHash = crypto
+            .createHmac("sha256", secretKey)
+            .update(dataCheckString)
+            .digest("hex");
+
+        const a = Buffer.from(calculatedHash);
+        const b = Buffer.from(receivedHash);
+
+        if (
+            a.length !== b.length ||
+            !crypto.timingSafeEqual(a, b)
+        ) {
+            return {
+                ok: false,
+                error: "Invalid Telegram signature"
+            };
+        }
+
+        const authDate = Number(params.get("auth_date") || 0);
+
+        if (!authDate) {
+            return {
+                ok: false,
+                error: "Missing auth date"
+            };
+        }
+
+        /*
+          Reject very old Telegram sessions.
+        */
+
+        if (
+            Math.floor(Date.now() / 1000) - authDate >
+            24 * 60 * 60
+        ) {
+            return {
+                ok: false,
+                error: "Telegram session expired"
+            };
+        }
+
+        const user = JSON.parse(
+            params.get("user") || "{}"
+        );
+
+        if (!user.id) {
+            return {
+                ok: false,
+                error: "Telegram user missing"
+            };
+        }
+
+        return {
+            ok: true,
+            user
+        };
+
+    } catch (e) {
+
+        return {
+            ok: false,
+            error: "Invalid initData"
+        };
     }
-
-    balance += 15;
-    miningTotal += 15;
-    mineCount++;
-
-    miningStartedAt = now.toISOString();
-    lastMineClaim = now.toISOString();
-
-    saveData();
-    updateUI();
-
-    toast("+15 ZKSH Mining Reward");
 }
 
 
-function updateMiningUI() {
+/* =========================================================
+   USER AUTH
+========================================================= */
 
-    const now = new Date();
+function getOrCreateUser(tgUser) {
 
-    const elapsedDays =
-        Math.floor(
-            (now - START_DATE) / 86400000
-        ) + 1;
+    const id = String(tgUser.id);
+
+    let user = db
+        .prepare(`
+            SELECT *
+            FROM users
+            WHERE telegram_id = ?
+        `)
+        .get(id);
+
+    if (!user) {
+
+        db.prepare(`
+            INSERT INTO users (
+                telegram_id,
+                username,
+                first_name,
+                created_at
+            )
+            VALUES (?, ?, ?, ?)
+        `).run(
+            id,
+            tgUser.username || "",
+            tgUser.first_name || "",
+            now()
+        );
+
+        user = db
+            .prepare(`
+                SELECT *
+                FROM users
+                WHERE telegram_id = ?
+            `)
+            .get(id);
+    }
+
+    return user;
+}
+
+
+/*
+ We don't trust user ID sent in JSON.
+ Every request must provide valid Telegram initData.
+*/
+
+function auth(req, res, next) {
+
+    const initData =
+        req.headers["x-telegram-init-data"];
+
+    const result =
+        validateTelegramInitData(initData);
+
+    if (!result.ok) {
+
+        return res.status(401).json({
+            ok: false,
+            error: result.error
+        });
+    }
+
+    req.tgUser = result.user;
+    req.dbUser = getOrCreateUser(result.user);
+
+    next();
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+app.get("/api/me", auth, (req, res) => {
+
+    const user =
+        getOrCreateUser(req.tgUser);
+
+    res.json({
+        ok: true,
+        user: safeUser(user),
+        mining: getMiningState(user),
+        tasks: getTaskState(user),
+        game: getGameState(user)
+    });
+});
+
+
+/* =========================================================
+   MINING
+========================================================= */
+
+function getMiningState(user) {
+
+    const current = now();
+
+    if (current < START_DATE.getTime()) {
+
+        return {
+            active: false,
+            ready: false,
+            day: 0,
+            days: 45,
+            nextMining: START_DATE.getTime()
+        };
+    }
+
+    if (current >= END_DATE.getTime()) {
+
+        return {
+            active: false,
+            ready: false,
+            day: 45,
+            days: 45,
+            ended: true,
+            nextMining: 0
+        };
+    }
+
+    const elapsed =
+        current - START_DATE.getTime();
 
     const day =
-        Math.max(1, Math.min(45, elapsedDays));
+        Math.min(
+            45,
+            Math.floor(
+                elapsed / 86400000
+            ) + 1
+        );
 
-    document.getElementById("dayText").textContent =
-        "Day " + day + " / 45";
+    const ready =
+        !user.last_mining ||
+        current - user.last_mining >= 86400000;
 
-    const progress =
-        Math.min(100, (day / 45) * 100);
+    return {
+        active: true,
+        ready,
+        day,
+        days: 45,
+        nextMining: ready
+            ? 0
+            : user.last_mining + 86400000
+    };
+}
 
-    document.getElementById("miningProgress").style.width =
-        progress + "%"
+
+app.post("/api/mining/claim", auth, (req, res) => {
+
+    const userId =
+        req.dbUser.telegram_id;
+
+    const current = now();
+
+    if (current < START_DATE.getTime()) {
+
+        return res.status(400).json({
+            ok: false,
+            error: "Mining has not started"
+        });
+    }
+
+    if (current >= END_DATE.getTime()) {
+
+        return res.status(400).json({
+            ok: false,
+            error: "Mining period ended"
+        });
+    }
+
+    const transaction =
+        db.transaction(() => {
+
+            const user =
+                db.prepare(`
+                    SELECT *
+                    FROM users
+                    WHERE telegram_id = ?
+                `).get(userId);
+
+            if (
+                user.last_mining &&
+                current - user.last_mining <
+                86400000
+            ) {
+                throw new Error(
+                    "Mining is still on cooldown"
+                );
+            }
+
+            db.prepare(`
+                UPDATE users
+                SET
+                    balance = balance + ?,
+                    mining_total = mining_total + ?,
+                    last_mining = ?
+                WHERE telegram_id = ?
+            `).run(
+                DAILY_MINING,
+                DAILY_MINING,
+                current,
+                userId
+            );
+        });
+
+    try {
+
+        transaction();
+
+        const updated =
+            db.prepare(`
+                SELECT *
+                FROM users
+                WHERE telegram_id = ?
+            `).get(userId);
+
+        res.json({
+            ok: true,
+            reward: DAILY_MINING,
+            user: safeUser(updated),
+            mining: getMiningState(updated)
+        });
+
+    } catch (e) {
+
+        res.status(400).json({
+            ok: false,
+            error: e.message
+        });
+    }
+});
+
+
+/* =========================================================
+   TASKS
+========================================================= */
+
+const TASKS = {
+    join_channel: {
+        title: "Join Telegram Channel",
+        reward: 3
+    },
+
+    like_post: {
+        title: "Like / Reaction",
+        reward: 3
+    },
+
+    watch_ad: {
+        title: "Watch Advertisement",
+        reward: 3
+    },
+
+    invite_friend: {
+        title: "Invite Friend",
+        reward: 3
+    }
+};
+
+
+/*
+ Tasks reset every 2 hours.
+ Server decides whether reward is available.
+*/
+
+function getLastTask(userId, key) {
+
+    return db.prepare(`
+        SELECT *
+        FROM tasks
+        WHERE telegram_id = ?
+        AND task_key = ?
+        ORDER BY completed_at DESC
+        LIMIT 1
+    `).get(
+        userId,
+        key
+    );
+}
+
+
+function getTaskState(user) {
+
+    const result = {};
+
+    for (const key of Object.keys(TASKS)) {
+
+        const row =
+            getLastTask(
+                user.telegram_id,
+                key
+            );
+
+        const ready =
+            !row ||
+            now() - row.completed_at >=
+            2 * 60 * 60 * 1000;
+
+        result[key] = {
+            title: TASKS[key].title,
+            reward: TASKS[key].reward,
+            ready
+        };
+    }
+
+    return result;
+}
+
+
+/*
+ IMPORTANT:
+ In production these task verification functions
+ must be connected to the actual Telegram channel,
+ ad provider callback, etc.
+*/
+
+async function verifyJoinChannel(userId) {
+
+    /*
+      Put your Telegram channel ID here.
+
+      Example:
+      const CHANNEL_ID = "@YourChannel";
+
+      Then call Telegram Bot API getChatMember.
+
+      Returning false here prevents fake rewards.
+    */
+
+    return false;
+}
+
+
+async function verifyLike(userId) {
+
+    /*
+      Telegram does not provide a universal
+      "this user liked this post" API.
+
+      Therefore DO NOT blindly reward this task.
+      Connect it to your own supported verification.
+    */
+
+    return false;
+}
+
+
+async function verifyAdvertisement(req) {
+
+    /*
+      Advertising provider should send a signed
+      server-to-server completion callback.
+
+      Do not trust:
+      { watched: true }
+
+      sent from the browser.
+    */
+
+    return false;
+}
+
+
+async function verifyInvite(userId) {
+
+    /*
+      Referral should be verified when a real new
+      Telegram user opens the bot using the referral link.
+    */
+
+    const count =
+        db.prepare(`
+            SELECT COUNT(*) AS c
+            FROM referrals
+            WHERE inviter = ?
+        `).get(userId).c;
+
+    return count > 0;
+}
+
+
+app.post("/api/tasks/:task/claim", auth, async (req, res) => {
+
+    const key =
+        req.params.task;
+
+    if (!TASKS[key]) {
+
+        return res.status(404).json({
+            ok: false,
+            error: "Unknown task"
+        });
+    }
+
+    const userId =
+        req.dbUser.telegram_id;
+
+    const previous =
+        getLastTask(userId, key);
+
+    if (
+        previous &&
+        now() - previous.completed_at <
+        2 * 60 * 60 * 1000
+    ) {
+
+        return res.status(429).json({
+            ok: false,
+            error: "Task is on cooldown"
+        });
+    }
+
+    let verified = false;
+
+    if (key === "join_channel") {
+        verified =
+            await verifyJoinChannel(userId);
+    }
+
+    if (key === "like_post") {
+        verified =
+            await verifyLike(userId);
+    }
+
+    if (key === "watch_ad") {
+        verified =
+            await verifyAdvertisement(req);
+    }
+
+    if (key === "invite_friend") {
+        verified =
+            await verifyInvite(userId);
+    }
+
+    if (!verified) {
+
+        return res.status(403).json({
+            ok: false,
+            error:
+                "Task could not be verified yet"
+        });
+    }
+
+    const reward =
+        TASKS[key].reward;
+
+    db.prepare(`
+        INSERT INTO tasks (
+            telegram_id,
+            task_key,
+            completed_at
+        )
+        VALUES (?, ?, ?)
+    `).run(
+        userId,
+        key,
+        now()
+    );
+
+    db.prepare(`
+        UPDATE users
+        SET
+            balance = balance + ?,
+            task_total = task_total + ?
+        WHERE telegram_id = ?
+    `).run(
+        reward,
+        reward,
+        userId
+    );
+
+    const user =
+        db.prepare(`
+            SELECT *
+            FROM users
+            WHERE telegram_id = ?
+        `).get(userId);
+
+    res.json({
+        ok: true,
+        reward,
+        user: safeUser(user)
+    });
+});
+
+
+/* =========================================================
+   GAME
+========================================================= */
+
+/*
+ Game design:
+
+ 40 seconds
+ 200 crystals
+ 8 bombs
+
+ The browser does NOT send:
+ "I earned 150 ZKSH"
+
+ It sends individual object hits.
+
+ Server keeps the game record and prevents:
+ - duplicate hits
+ - hits after expiration
+ - multiple finishes
+ - changing balance from browser
+*/
+
+function getGameState(user) {
+
+    const sixHours =
+        6 * 60 * 60 * 1000;
+
+    const recentGames =
+        db.prepare(`
+            SELECT COUNT(*) AS c
+            FROM games
+            WHERE telegram_id = ?
+            AND started_at >= ?
+        `).get(
+            user.telegram_id,
+            now() - sixHours
+        ).c;
+
+    return {
+        remaining:
+            Math.max(0, 2 - recentGames),
+        limit: 2,
+        cooldownHours: 6
+    };
+}
+
+
+app.post("/api/game/start", auth, (req, res) => {
+
+    const userId =
+        req.dbUser.telegram_id;
+
+    const state =
+        getGameState(req.dbUser);
+
+    if (state.remaining <= 0) {
+
+        return res.status(429).json({
+            ok: false,
+            error:
+                "No games available. Try again later."
+        });
+    }
+
+    const gameId =
+        randomId(20);
+
+    const started =
+        now();
+
+    const expires =
+        started +
+        GAME_DURATION * 1000 +
+        3000;
+
+    /*
+      Server-generated seed.
+      Client cannot choose it.
+    */
+
+    const seed =
+        crypto.randomBytes(32)
+            .toString("hex");
+
+    db.prepare(`
+        INSERT INTO games (
+            id,
+            telegram_id,
+            started_at,
+            expires_at
+        )
+        VALUES (?, ?, ?, ?)
+    `).run(
+        gameId,
+        userId,
+        started,
+        expires
+    );
+
+    /*
+      Object schedule is deterministic from the
+      server-generated seed.
+    */
+
+    const signature =
+        hmac(
+            `${gameId}:${seed}:${started}`
+        );
+
+    res.json({
+        ok: true,
+        game: {
+            id: gameId,
+            startedAt: started,
+            expiresAt: expires,
+            duration: GAME_DURATION,
+            crystals: GAME_CRYSTALS,
+            bombs: GAME_BOMBS,
+            seed,
+            signature
+        }
+    });
+});
+
+
+/*
+ Deterministic pseudo random generator.
+*/
+
+function seededRandom(seed) {
+
+    let h = 2166136261;
+
+    for (let i = 0; i < seed.length; i++) {
+
+        h ^= seed.charCodeAt(i);
+
+        h =
+            Math.imul(
+                h,
+                16777619
+            );
+    }
+
+    return function() {
+
+        h += 0x6D2B79F5;
+
+        let t = h;
+
+        t =
+            Math.imul(
+                t ^ (t >>> 15),
+                t | 1
+            );
+
+        t ^=
+            t +
+            Math.imul(
+                t ^ (t >>> 7),
+                t | 61
+            );
+
+        return (
+            ((t ^ (t >>> 14)) >>> 0)
+            / 4294967296
+        );
+    };
+}
+
+
+/*
+ Build server-side game objects.
+*/
+
+function buildGameObjects(gameId) {
+
+    const random =
+        seededRandom(gameId);
+
+    const objects = [];
+
+    for (
+        let i = 0;
+        i < GAME_CRYSTALS;
+        i++
+    ) {
+
+        objects.push({
+            id: `c_${i}`,
+            type: "crystal",
+            x: random(),
+            spawn:
+                (i / GAME_CRYSTALS) *
+                GAME_DURATION
+        });
+    }
+
+    for (
+        let i = 0;
+        i < GAME_BOMBS;
+        i++
+    ) {
+
+        objects.push({
+            id: `b_${i}`,
+            type: "bomb",
+            x: random(),
+            spawn:
+                3 +
+                random() *
+                34
+        });
+    }
+
+    return objects;
+}
+
+
+app.get("/api/game/:id/config", auth, (req, res) => {
+
+    const game =
+        db.prepare(`
+            SELECT *
+            FROM games
+            WHERE id = ?
+            AND telegram_id = ?
+        `).get(
+            req.params.id,
+            req.dbUser.telegram_id
+        );
+
+    if (!game) {
+
+        return res.status(404).json({
+            ok: false,
+            error: "Game not found"
+        });
+    }
+
+    const objects =
+        buildGameObjects(game.id);
+
+    res.json({
+        ok: true,
+        objects
+    });
+});
+
+
+app.post("/api/game/:id/hit", auth, (req, res) => {
+
+    const game =
+        db.prepare(`
+            SELECT *
+            FROM games
+            WHERE id = ?
+            AND telegram_id = ?
+        `).get(
+            req.params.id,
+            req.dbUser.telegram_id
+        );
+
+    if (!game) {
+
+        return res.status(404).json({
+            ok: false,
+            error: "Game not found"
+        });
+    }
+
+    if (game.finished) {
+
+        return res.status(400).json({
+            ok: false,
+            error: "Game already finished"
+        });
+    }
+
+    const current =
+        now();
+
+    if (
+        current <
+        game.started_at
+    ) {
+
+        return res.status(400).json({
+            ok: false,
+            err
